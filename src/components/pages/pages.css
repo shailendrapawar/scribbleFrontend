@@ -1,0 +1,70 @@
+/* WelcomePage.css */
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f3f4f6, #ffffff);
+    text-align: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .welcome-title {
+    font-size: 2.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+  }
+  
+  .welcome-description {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 30px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+  }
+  
+  .get-started-button {
+    padding: 15px 30px;
+    font-size: 1.1rem;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+  }
+  
+  .get-started-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .get-started-button:active {
+    background-color: #00409a;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    .welcome-title {
+      font-size: 2.2rem;
+    }
+  
+    .welcome-description {
+      font-size: 1rem;
+    }
+  
+    .get-started-button {
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
+  }
+  
