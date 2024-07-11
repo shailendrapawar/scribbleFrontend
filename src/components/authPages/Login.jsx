@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+const API_URL=JSON.stringify(import.meta.env.VITE_API_URL)
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -62,16 +63,43 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Login = () => (
-  <Container>
-    <LoginForm>
-      <Title className='text-black text-2xl font-semibold'>Login</Title>
-      <Input className=' outline-none' type="email" placeholder="Enter Email" />
-      <Input className=' outline-none' type="password" placeholder="Enter Password" />
-      <Button>Login</Button>
+const Login = () => {
+
+
+const[email, setEmail]=useState("")
+const[password,setPassword]=useState("")
+const userData={
+  email,password
+}
+
+const handleLogin=async(e)=>{
+  console.log(API_URL)
+  e.preventDefault()
+  const res=await axios.post(`${API_URL}/login`,
+    userData
+  )
+  console.log(res)
+}
+
+  return(
+    <>
+    <Container>
+    <LoginForm >
+      <Title  className='text-black text-2xl font-semibold'>Login</Title>
+      <Input  value={email} onChange={(e)=>{
+        setEmail(e.target.value)
+      }} className=' outline-none' type="email" placeholder="Enter Email" />
+      <Input value={password} onChange={(e)=>{
+        setPassword(e.target.value)
+      }}  className=' outline-none' type="password" placeholder="Enter Password" />
+      <Button onClick={(e)=>{
+        handleLogin(e)
+      }} >Login</Button>
       <StyledLink to="/register">new here? Register</StyledLink>
     </LoginForm>
   </Container>
-);
+    </>
+  )
+}
 
 export default Login;
