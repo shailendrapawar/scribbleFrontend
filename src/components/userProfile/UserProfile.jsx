@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './userProfile.css'
 import { useNavigate } from 'react-router-dom'
+import { IoMdAddCircleOutline } from "react-icons/io";
+
 const UserProfile = () => {
 
   const navigate = useNavigate()
-
+  const[isNull, setIsNull]=useState(true)
   const handleLogout = () => {
 
   }
@@ -19,15 +21,15 @@ const UserProfile = () => {
 
         <section className='userData-left cursor-pointer flex flex-col gap-5 items-center justify-center'>
           <div onClick={()=>navigate("/todo")} className='todo-count rounded-md relative flex items-center justify-center bg-[#0370FF]'>
-            <b className='absolute top-2 left-2'>TODO:</b>   <span className=''>40</span>
+            <b className='absolute top-2 left-2'>TODO:</b>   {isNull?<IoMdAddCircleOutline className=' h-10 w-10'/>:<span >40</span>}
           </div>
           <div  onClick={()=>navigate("/note")}  className='note-count rounded-md relative flex justify-center items-center bg-[#0370FF]'>
-            <b className='absolute top-2 left-2'>NOTE:</b>   <span>50</span>
+            <b className='absolute top-2 left-2'>NOTE:</b>   {isNull?<IoMdAddCircleOutline className=' h-10 w-10'/>:<span >40</span>}
           </div>
         </section>
 
 
-        <section className='userData-right flex flex-col justify-center items-center gap-5'>
+        <section className='userData-right pr-3 flex flex-col justify-center items-center gap-5'>
           <div className='userName-body'>
             <span>name:</span><p>user name</p>
           </div>

@@ -20,6 +20,9 @@
     height: 80px;
     width: 200px;
 }
+.todo-count:active,.note-count:active{
+    transform: scale(0.9);
+}
 .todo-count span{
     font-size: 2rem;
     margin-left: 2rem;
@@ -35,6 +38,7 @@
 }
 .userData-right {
     width: 50%;
+
 }
 .userData-right div{
     height: 50px;

@@ -15,6 +15,7 @@ import Welcome from './components/pages/Welcome.jsx'
 const myRouter=createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<Layout/>}>
+      <Route path='*' element></Route>
       <Route path='' element={<Welcome/>} ></Route>
       <Route path='/userProfile' element={<UserProfile/>} ></Route>
       <Route path='/todo' element={<Todo/>} ></Route>
