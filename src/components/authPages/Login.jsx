@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {} from 'react-router-dom'
 import axios from 'axios';
-const API_URL=JSON.stringify(import.meta.env.VITE_API_URL)
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -19,7 +20,7 @@ const LoginForm = styled.div`
   text-align: center;
   width: 100%;
   max-width: 400px;
-
+position:relative
   @media (max-width: 768px) {
     padding: 1.5em;
   }
@@ -30,27 +31,13 @@ const Title = styled.h1`
 `;
 
 const Input = styled.input`
-  width: calc(100% - 2em);
+  width: calc(100% - 0.5em);
   padding: 0.5em;
   margin: 0.5em 0;
   border: 1px solid #ccc;
   border-radius: 5px;
 `;
 
-const Button = styled.button`
-  width: calc(100% - 2em);
-  padding: 0.5em;
-  margin: 1em 0;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
-  }
-`;
 
 const StyledLink = styled(Link)`
   color: #007bff;
@@ -65,39 +52,85 @@ const StyledLink = styled(Link)`
 
 const Login = () => {
 
+  const naviagte=useNavigate();
 
-const[email, setEmail]=useState("")
-const[password,setPassword]=useState("")
-const userData={
-  email,password
-}
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+  const userData = {
+    email, password
+  }
 
-const handleLogin=async(e)=>{
-  console.log(API_URL)
-  e.preventDefault()
-  const res=await axios.post(`${API_URL}/login`,
-    userData
-  )
-  console.log(res)
-}
 
-  return(
+  const validate = () => {
+    if (email == '') {
+      setError("enter email");
+      return false
+    }
+    else if (password == '') {
+      setError("enter password")
+      return false
+    }
+    return true;
+  }
+
+
+  const handleLogin = async (e) => {
+    e.preventDefault()
+
+    if (validate()) {
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/login", userData);
+      console.log(res)
+
+      //if user exists 
+      if (res.data.status == 200) {
+        setError(res.data.msg)
+
+        setTimeout(()=>{
+          naviagte("/userProfile")
+        },2000)
+
+      } 
+
+      //if user dosent
+      else {
+        setError(res.data.msg)
+        setPassword("")
+        setTimeout(() => {
+          setError("")
+        }, 3000)
+      }
+
+    } else {
+
+      
+      setTimeout(() => {
+        setError("")
+      }, 3000)
+    }
+  }
+
+  return (
     <>
-    <Container>
-    <LoginForm >
-      <Title  className='text-black text-2xl font-semibold'>Login</Title>
-      <Input  value={email} onChange={(e)=>{
-        setEmail(e.target.value)
-      }} className=' outline-none' type="email" placeholder="Enter Email" />
-      <Input value={password} onChange={(e)=>{
-        setPassword(e.target.value)
-      }}  className=' outline-none' type="password" placeholder="Enter Password" />
-      <Button onClick={(e)=>{
-        handleLogin(e)
-      }} >Login</Button>
-      <StyledLink to="/register">new here? Register</StyledLink>
-    </LoginForm>
-  </Container>
+      <Container>
+        <LoginForm>
+          <Title className='text-black text-2xl font-semibold'>Login</Title>
+          <p className='text-red-600 h-6' >{error}</p>
+          <Input value={email} onChange={(e) => {
+            setEmail(e.target.value)
+          }} className=' outline-none' type="email" placeholder="Enter Email" />
+          <Input value={password} onChange={(e) => {
+            setPassword(e.target.value)
+          }} className=' outline-none' type="password" placeholder="Enter Password" />
+          
+
+          <StyledLink to="/register">new here? Register</StyledLink>
+          <button onClick={(e)=>{
+            handleLogin(e)
+          }} className= ' w-32 h-10 ml-10 mt-2  bg-blue-600 rounded-md'>LOGIN</button>
+          
+        </LoginForm>
+      </Container>
     </>
   )
 }
