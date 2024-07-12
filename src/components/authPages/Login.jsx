@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
-import {} from 'react-router-dom'
+import { } from 'react-router-dom'
 import axios from 'axios';
 
 const Container = styled.div`
@@ -52,7 +52,7 @@ const StyledLink = styled(Link)`
 
 const Login = () => {
 
-  const naviagte=useNavigate();
+  const naviagte = useNavigate();
 
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -78,7 +78,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
 
-    if (validate()) {
+    const isValid = validate()
+
+    if (isValid) {
       const res = await axios.post(import.meta.env.VITE_API_URL + "/login", userData);
       console.log(res)
 
@@ -86,11 +88,11 @@ const Login = () => {
       if (res.data.status == 200) {
         setError(res.data.msg)
 
-        setTimeout(()=>{
+        setTimeout(() => {
           naviagte("/userProfile")
-        },2000)
+        }, 2000)
 
-      } 
+      }
 
       //if user dosent
       else {
@@ -102,8 +104,6 @@ const Login = () => {
       }
 
     } else {
-
-      
       setTimeout(() => {
         setError("")
       }, 3000)
@@ -122,13 +122,10 @@ const Login = () => {
           <Input value={password} onChange={(e) => {
             setPassword(e.target.value)
           }} className=' outline-none' type="password" placeholder="Enter Password" />
-          
-
           <StyledLink to="/register">new here? Register</StyledLink>
-          <button onClick={(e)=>{
+          <button onClick={(e) => {
             handleLogin(e)
-          }} className= ' w-32 h-10 ml-10 mt-2  bg-blue-600 rounded-md'>LOGIN</button>
-          
+          }} className=' w-32 h-10 ml-10 mt-2  bg-blue-600 rounded-md'>LOGIN</button>
         </LoginForm>
       </Container>
     </>

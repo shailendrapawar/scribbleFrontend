@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {} from 'react-router-dom'
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -62,18 +63,86 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const Register = () => (
-  <Container>
-    <Form>
-      <Title className='text-black text-2xl font-semibold'>Register</Title>
-      <Input className=' outline-none' type="text" placeholder="Enter Name" />
-      <Input className=' outline-none' type="text" placeholder="Enter Number" />
-      <Input className=' outline-none' type="email" placeholder="Enter Email" />
-      <Input className=' outline-none' type="password" placeholder="Enter Password" />
-      <Button>Register</Button>
-      <StyledLink to="/login">already user? Login</StyledLink>
-    </Form>
-  </Container>
-);
+const Register = () => {
+
+  const navigate=useNavigate()
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const validate = () => {
+
+    if (name == "") {
+      setError("enter name")
+      return false
+    }
+    if (email == "") {
+      setError("enter email")
+      return false
+    }
+
+    if (number == "") {
+      setError("enter number")
+      return false
+    }
+
+    if (password == "") {
+      setError("enter password")
+      return false
+    }
+    setError("")
+    return true
+
+  }
+
+  const handleRegister = async () => {
+    const isValid = validate()
+    if (isValid) {
+      const userData = {
+        email, name, number, password
+      }
+
+      const res = await axios.post(import.meta.env.VITE_API_URL + "/register", userData)
+
+      setError("")
+
+      if (res.data.status == 200) {
+        setError(res.data.msg)
+        navigate("/login")
+        
+      } else {
+
+        setError(res.data.msg)
+        setEmail("")
+        setPassword("")
+        setTimeout(() => {
+          setError("")
+
+        }, 3000)
+      }
+
+    } else {
+
+    }
+
+  }
+
+  return (
+    <Container>
+      <Form>
+        <Title className='text-black text-2xl font-semibold'>Register</Title>
+        <p className='text-red-600 h-5 mb-2'>{error}</p>
+        <Input value={name} onChange={(e) => setName(e.target.value)} className=' outline-none' type="text" placeholder="Enter Name" />
+        <Input value={number} onChange={(e) => setNumber(e.target.value)} className=' outline-none' type="text" placeholder="Enter Number" />
+        <Input value={email} onChange={(e) => setEmail(e.target.value)} className=' outline-none' type="email" placeholder="Enter Email" />
+        <Input value={password} onChange={(e) => setPassword(e.target.value)} className=' outline-none' type="password" placeholder="Enter Password" />
+        <Button onClick={(e) => handleRegister(e)}>Register</Button>
+        <StyledLink to="/login">already user? Login</StyledLink>
+      </Form>
+    </Container>
+  );
+}
 
 export default Register;
