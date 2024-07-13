@@ -13,7 +13,7 @@ const UserProfile = () => {
   const [isLoaded, setLoaded] = useState(false)
 
   //all states for user data
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState({})
   const [todo, setTodo] = useState()
   const [note, setNote] = useState()
 
@@ -34,23 +34,26 @@ const UserProfile = () => {
 
 
   //fn for fetching user data
-  const fetchUserData = async (userId) => {
-    axios.get(import.meta.env.VITE_API_URL + `/getUser/${userId}`).then((res) => {
-      setUserData(res.data)
-      setLoaded(true)
-    })
-
-
-  }
 
   useEffect(() => {
 
     const id = localStorage.getItem("SCRIBBLE_USER_ID")
-
     if (id != null) {
 
       setUserId(id)
+
+      const fetchUserData = async (userId) => {
+        setLoaded(false)
+        const res = await axios.get(import.meta.env.VITE_API_URL + `/getUser/${id}`)
+        console.log(res.data)
+        setUserData(res.data.userData)
+
+        setLoaded(true)
+
+
+      }
       fetchUserData(id)
+
     } else {
       navigate("/login")
     }
@@ -67,23 +70,23 @@ const UserProfile = () => {
 
           <section className='userData-left cursor-pointer flex flex-col gap-5 items-center justify-center'>
             <div onClick={() => navigate("/todo")} className=' todo-count rounded-md relative flex items-center justify-center bg-[#0370FF]'>
-              <b className='absolute top-2 left-2'>TODO:</b>   <span>{ }</span>
+              <b className='absolute top-2 left-2'>TODO:</b>{userData.todos.length>0?<span>{userData.todos.length}</span>:<IoMdAddCircleOutline className='h-10 w-10'/>}
             </div>
             <div onClick={() => navigate("/note")} className='note-count rounded-md relative flex justify-center items-center bg-[#0370FF]'>
-              <b className='absolute top-2 left-2'>NOTE:</b>  <span >{note}</span>
+              <b className='absolute top-2 left-2'>NOTE:</b> {userData.notes.length>0?<span>{userData.notes.length}</span>:<IoMdAddCircleOutline className='h-10 w-10'/>}
             </div>
           </section>
 
 
           <section className='userData-right pr-3 flex flex-col justify-center items-center gap-5'>
             <div className='userName-body'>
-              <span>name:</span><p className=''>user name</p>
+              <span>name:</span><p className=''>{userData.name}</p>
             </div>
             <div className='userNumber-body'>
-              <span>number:</span><p>user number </p>
+              <span>number:</span><p>{userData.number} </p>
             </div>
             <div className='userEmail-body'>
-              <span>email:</span><p>user email </p>
+              <span>email:</span><p>{userData.email} </p>
             </div>
           </section>
         </main>
