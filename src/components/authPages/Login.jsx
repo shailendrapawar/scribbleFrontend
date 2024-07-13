@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { } from 'react-router-dom'
@@ -52,6 +52,11 @@ const StyledLink = styled(Link)`
 
 const Login = () => {
 
+
+  useEffect(()=>{
+    localStorage.removeItem("SCIBBLE_USER_ID")
+  },[])
+
   const naviagte = useNavigate();
 
   const [email, setEmail] = useState("")
@@ -88,10 +93,11 @@ const Login = () => {
       if (res.data.status == 200) {
         setError(res.data.msg)
 
+        localStorage.setItem("SCRIBBLE_USER_ID",res.data.id)
+
         setTimeout(() => {
           naviagte("/userProfile")
         }, 2000)
-
       }
 
       //if user dosent
