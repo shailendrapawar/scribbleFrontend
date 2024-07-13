@@ -55,6 +55,7 @@ const Login = () => {
 
   useEffect(()=>{
     localStorage.removeItem("SCIBBLE_USER_ID")
+    
   },[])
 
   const naviagte = useNavigate();

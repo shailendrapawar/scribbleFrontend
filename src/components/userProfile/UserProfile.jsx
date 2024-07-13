@@ -7,25 +7,25 @@ import axios from 'axios'
 const UserProfile = () => {
 
   const navigate = useNavigate()
-  const[userId,setUserId]=useState(null)
-  const[isNull, setIsNull]=useState(true)
+  const [userId, setUserId] = useState(null)
+  const [isNull, setIsNull] = useState(true)
 
-  const[isLoaded,setLoaded]=useState(false)
+  const [isLoaded, setLoaded] = useState(false)
 
   //all states for user data
-  const[userData,setUserData]=useState()
-  const[todo,setTodo]=useState()
-  const[note,setNote]=useState()
+  const [userData, setUserData] = useState()
+  const [todo, setTodo] = useState()
+  const [note, setNote] = useState()
 
-  const[name,setName]=useState("")
+  const [name, setName] = useState("")
 
 
   // fn for logout
   const handleLogout = () => {
 
     localStorage.removeItem("SCRIBBLE_USER_ID")
-    const bool=confirm("are you sure, u want to logout?")
-    if(bool){
+    const bool = confirm("are you sure, u want to logout?")
+    if (bool) {
       navigate("/login")
     }
 
@@ -34,47 +34,47 @@ const UserProfile = () => {
 
 
   //fn for fetching user data
-  const fetchUserData=async(userId)=>{
-     axios.get(import.meta.env.VITE_API_URL + `/getUser/${userId}`).then((res)=>{
-      setUserData(res)
-      const stringData=JSON.stringify(res.data)
+  const fetchUserData = async (userId) => {
+    axios.get(import.meta.env.VITE_API_URL + `/getUser/${userId}`).then((res) => {
+      setUserData(res.data)
       setLoaded(true)
-       
-     })
+    })
+
+
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    const id=localStorage.getItem("SCRIBBLE_USER_ID")
-    
-    if(id!=null){
-      
+    const id = localStorage.getItem("SCRIBBLE_USER_ID")
+
+    if (id != null) {
+
       setUserId(id)
       fetchUserData(id)
-    }else{
+    } else {
       navigate("/login")
     }
 
-  },[])
+  }, [])
 
 
-  if(isLoaded){
+  if (isLoaded) {
     return (
       <div className='userProfile-body flex flex-col items-center bg-[#D9D9D9]'>
         <h1 className=' text-black text-center '>Account Info</h1>
-  
+
         <main className='userData flex '>
-  
+
           <section className='userData-left cursor-pointer flex flex-col gap-5 items-center justify-center'>
-            <div onClick={()=>navigate("/todo")} className=' todo-count rounded-md relative flex items-center justify-center bg-[#0370FF]'>
-              <b className='absolute top-2 left-2'>TODO:</b>   <span>{}</span>
+            <div onClick={() => navigate("/todo")} className=' todo-count rounded-md relative flex items-center justify-center bg-[#0370FF]'>
+              <b className='absolute top-2 left-2'>TODO:</b>   <span>{ }</span>
             </div>
-            <div  onClick={()=>navigate("/note")}  className='note-count rounded-md relative flex justify-center items-center bg-[#0370FF]'>
+            <div onClick={() => navigate("/note")} className='note-count rounded-md relative flex justify-center items-center bg-[#0370FF]'>
               <b className='absolute top-2 left-2'>NOTE:</b>  <span >{note}</span>
             </div>
           </section>
-  
-  
+
+
           <section className='userData-right pr-3 flex flex-col justify-center items-center gap-5'>
             <div className='userName-body'>
               <span>name:</span><p className=''>user name</p>
@@ -87,17 +87,17 @@ const UserProfile = () => {
             </div>
           </section>
         </main>
-  
+
         <button onClick={() => handleLogout()} className=' bg-red-500 w-40 h-10 rounded-md' >LOG-OUT</button>
-  
+
       </div>
     );
-  }else{
+  } else {
 
     return (
       <>
-      <h1>LOADING.....</h1>
-      {/* <button onClick={()=>navigate("/login")} className=' bg-red-500 w-40 h-10 rounded-md'>LOG-IN</button> */}
+        <h1>LOADING.....</h1>
+        {/* <button onClick={()=>navigate("/login")} className=' bg-red-500 w-40 h-10 rounded-md'>LOG-IN</button> */}
       </>
     );
   }
