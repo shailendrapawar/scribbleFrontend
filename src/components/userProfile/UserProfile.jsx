@@ -42,16 +42,21 @@ const UserProfile = () => {
 
       setUserId(id)
 
-      const fetchUserData = async (userId) => {
+      const fetchUserData = async () => {
         setLoaded(false)
-        const res = await axios.get(import.meta.env.VITE_API_URL + `/getUser/${id}`)
-        console.log(res.data)
-        setUserData(res.data.userData)
 
-        setLoaded(true)
-
-
+        try{
+          const res = await axios.get(import.meta.env.VITE_API_URL + `/getUser/${id}`)
+          console.log(res.data)
+          setUserData(res.data.userData)
+          setLoaded(true)
+        }catch(e){
+          console.log(e)
+        }finally{
+          setLoaded(true)
+        }
       }
+
       fetchUserData(id)
 
     } else {
@@ -70,10 +75,10 @@ const UserProfile = () => {
 
           <section className='userData-left cursor-pointer flex flex-col gap-5 items-center justify-center'>
             <div onClick={() => navigate("/todo")} className=' todo-count rounded-md relative flex items-center justify-center bg-[#0370FF]'>
-              <b className='absolute top-2 left-2'>TODO:</b>{userData.todos.length>0?<span>{userData.todos.length}</span>:<IoMdAddCircleOutline className='h-10 w-10'/>}
+              <b className='absolute top-2 left-2'>TODO:</b>{userData.todos.length>0?<span>{userData.todos.length}</span>:<IoMdAddCircleOutline className='h-10 w-10 ml-8'/>}
             </div>
             <div onClick={() => navigate("/note")} className='note-count rounded-md relative flex justify-center items-center bg-[#0370FF]'>
-              <b className='absolute top-2 left-2'>NOTE:</b> {userData.notes.length>0?<span>{userData.notes.length}</span>:<IoMdAddCircleOutline className='h-10 w-10'/>}
+              <b className='absolute top-2 left-2'>NOTE:</b> {userData.notes.length>0?<span>{userData.notes.length}</span>:<IoMdAddCircleOutline className='h-10 w-10 ml-8'/>}
             </div>
           </section>
 
