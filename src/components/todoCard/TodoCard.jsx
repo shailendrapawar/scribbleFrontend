@@ -2,27 +2,22 @@ import React, { useEffect, useState } from 'react'
 import "./todoCard.css"
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+import io from "socket.io-client";
+const socket=io(import.meta.env.VITE_API_URL);
 
-
-{/* <MdDelete /> */}
-
-const TodoCard = ({d,s,update,id}) => {
+const TodoCard = ({d,s,handleDelete,id}) => {
   const[status,setStatus]=useState()
   const[desc,setDesc]=useState()
+  
   
 
 const handleTodoStatus=async()=>{
   setStatus(!status);
-  const todoData={
-    status:status
-  }
-  const res=await axios.put(import.meta.env.VITE_API_URL+`/editTodo/${id}`,todoData)
-  console.log(res)
-  if(res.status==200){
-   
-      update(s)
-
-  }
+  console.log(status)
+  socket.emit("setStatus",{
+    todoId:id,
+    todoStatus:status
+  });
 }
 
 
@@ -37,11 +32,11 @@ const handleTodoStatus=async()=>{
 
   
   return (
-    <div className='todoCard-body'onClick={()=>{
+    <div className='todoCard-body'style={status?{textDecoration:"none",backgroundColor:"white"}:{textDecoration:"line-through",backgroundColor:"grey"}} >
+      <p onClick={()=>{
       handleTodoStatus()
-    }} style={status?{textDecoration:"line-through",backgroundColor:"grey"}:{textDecoration:"none",backgroundColor:"white"}} >
-      <p>{desc}</p>
-      <MdDelete className=' absolute right-2 top-4 h-6 w-6 text-black' />
+    }} >{desc}</p>
+      <MdDelete onClick={(e)=>{handleDelete(id)}} className=' absolute right-2 top-4 h-6 w-6 text-black' />
     </div>
   )
 }

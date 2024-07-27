@@ -5,60 +5,57 @@ import axios from 'axios'
 
 const Todo = () => {
 
-  const[userId,setUserId]=useState("")
-  const[todos,setTodos]=useState([])
+  let userId;
 
-  const[refresh,setRefresh]=useState(0)
+  const [todos, setTodos] = useState([])
+  const [inflector, setInflector] = useState(0);
 
 
-  // const handleTodoStatus=async(id,s)=>{
-  //   const userdata={
-  //     status:!s
-  //   }
+  const fetchTodo = async (userId) => {
+    const res = await axios.post(import.meta.env.VITE_API_URL + "/getAllTodo", { userId: userId })
+    setTodos(res.data.todos)
+    console.log(res.data.todos)
 
-  //   const res=axios.put(import.meta.env.VITE_API_URL)
-
-  // }
-
-  const sample=(s)=>{
-  console.log(s)
-  setRefresh(refresh+1)
   }
-  
-  const fetchTodo=async(userId)=>{
-      const res=await axios.post(import.meta.env.VITE_API_URL+"/getAllTodo",{userId:userId})
-      setTodos(res.data.todos)
-      console.log(res.data.todos)
-  
+
+  const handleDelete = async (id) => {
+    // e.preventDefault()
+    const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+    const isDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteTodo/${id}/${userId}`)
+
+    console.log(isDeleted);
+    if (isDeleted) {
+        fetchTodo(userId)
     }
+  }
 
 
-  useEffect(()=>{
-    const userId=localStorage.getItem("SCRIBBLE_USER_ID")
+  useEffect(() => {
+    userId = localStorage.getItem("SCRIBBLE_USER_ID")
     fetchTodo(userId)
-  },[refresh])
+  }, [])
 
   return (
-    <div className='todo-page'> 
+    <div className='todo-page'>
 
 
-    {/* todo page for desktop */}
-    <div className='desktopTodo-page'>
-      <section className='todoAdd-body'>
-        <input type='text' placeholder='enter todo' ></input  ><button>ADD</button>
-      </section>
-      <div className='todo-list'>
-        {
-          todos!=null?todos.map((v,i)=>{
-            return < TodoCard key={i} d={v.desc} s={v.status} id={v._id} update={sample}/>
-          }):<h1>add some</h1>
-        }
+      {/* todo page for desktop */}
+      <div className='desktopTodo-page'>
+        <section className='todoAdd-body'>
+          <input type='text' placeholder='enter todo' ></input  ><button>ADD</button>
+        </section>
+        <div className='todo-list'>
+          {
+            todos != null ? todos.map((v, i) => {
+              return < TodoCard key={i} handleDelete={handleDelete} d={v.desc} s={v.status} id={v._id} />
+            }) : <h1>add some</h1>
+          }
+        </div>
       </div>
-    </div>
 
 
-    {/* todo page for mobile  */}
-    <div className='mobileTodo-page'></div>
+      {/* todo page for mobile  */}
+      <div className='mobileTodo-page'></div>
 
     </div>
   )
