@@ -7,26 +7,71 @@ const Todo = () => {
 
   let userId;
 
-  const [todos, setTodos] = useState([])
-  const [inflector, setInflector] = useState(0);
+  const [todosArr, setTodosArr] = useState([])
+  const [todo, setTodo] = useState("")
+  const [notify, setNotify] = useState("")
 
 
+  //fetching todo with user id in local storage
   const fetchTodo = async (userId) => {
     const res = await axios.post(import.meta.env.VITE_API_URL + "/getAllTodo", { userId: userId })
-    setTodos(res.data.todos)
-    console.log(res.data.todos)
+    setTodosArr(res.data.todos)
+  }
+
+  //creating todo
+  const createTodo = async () => {
+    const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+    const isCreated = await axios.post(import.meta.env.VITE_API_URL + `/createTodo`, {
+      desc: todo,
+      userId: userId
+    })
+
+    if (isCreated.data.status == 201) {
+      fetchTodo(userId);
+      setTodo("")
+      setNotify(isCreated.data.msg);
+
+      setTimeout(() => {
+        setNotify("")
+      }, 1500)
+    } else {
+      setNotify(isCreated.data.msg);
+      setTimeout(() => {
+        setNotify("")
+      }, 1500)
+    }
 
   }
 
+
+  //deleting a todo operation
   const handleDelete = async (id) => {
-    // e.preventDefault()
     const userId = localStorage.getItem("SCRIBBLE_USER_ID")
     const isDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteTodo/${id}/${userId}`)
-
-    console.log(isDeleted);
-    if (isDeleted) {
-        fetchTodo(userId)
+    if (isDeleted.data.status == 201) {
+      fetchTodo(userId);
+      setNotify(isDeleted.data.msg);
+      setTimeout(() => {
+        setNotify("")
+      }, 1500)
+    } else {
+      setNotify(isDeleted.data.msg);
+      setTimeout(() => {
+        setNotify("")
+      }, 1500)
     }
+  }
+
+  const handleDeleteAll = async () => {
+    const choice = confirm("are you sure t delete all todos")
+    if (choice) {
+      const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+      const areDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteAllTodos/${userId}`)
+      console.log(areDeleted);
+      fetchTodo(userId);
+
+    }
+
   }
 
 
@@ -37,20 +82,22 @@ const Todo = () => {
 
   return (
     <div className='todo-page'>
-
-
       {/* todo page for desktop */}
       <div className='desktopTodo-page'>
+        <p className='notify-area'>{notify}</p>
         <section className='todoAdd-body'>
-          <input type='text' placeholder='enter todo' ></input  ><button>ADD</button>
+          <input type='text' placeholder='enter todo' value={todo} onChange={(e) => setTodo(e.target.value)} ></input  ><button onClick={() => createTodo()}>ADD</button>
         </section>
+
         <div className='todo-list'>
           {
-            todos != null ? todos.map((v, i) => {
+            todosArr != null ? todosArr.map((v, i) => {
               return < TodoCard key={i} handleDelete={handleDelete} d={v.desc} s={v.status} id={v._id} />
             }) : <h1>add some</h1>
           }
         </div>
+
+        <button className='deleteTodo-btn' onClick={handleDeleteAll}>delete all</button>
       </div>
 
 
