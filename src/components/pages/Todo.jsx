@@ -2,9 +2,12 @@ import React, { useEffect, useState } from 'react'
 import './pages.css'
 import TodoCard from '../todoCard/TodoCard'
 import axios from 'axios'
+import { IoArrowBackCircle } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom'
 
 const Todo = () => {
 
+  const navigate=useNavigate()
   let userId;
 
   const [todosArr, setTodosArr] = useState([])
@@ -98,6 +101,7 @@ const Todo = () => {
         </div>
 
         <button className='deleteTodo-btn' onClick={handleDeleteAll}>delete all</button>
+        <IoArrowBackCircle className='back-btn' onClick={()=>navigate(-1)}/>
       </div>
 
 
