@@ -57,6 +57,7 @@ const UserProfile = () => {
         }
       }
 
+      
       fetchUserData(id)
 
     } else {

@@ -78,8 +78,9 @@
   align-items: center;
   justify-content: center;
 }
-.notify-area{
-  height:30px;
+
+.notify-area {
+  height: 30px;
   color: red;
 }
 
@@ -118,7 +119,8 @@
   width: 90%;
   overflow: scroll;
 }
-.todo-list::-webkit-scrollbar{
+
+.todo-list::-webkit-scrollbar {
   display: none;
 }
 
@@ -130,9 +132,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  align-items: center;position: relative;
+  align-items: center;
+  position: relative;
 }
-.deleteTodo-btn{
+
+.deleteTodo-btn {
   background-color: red;
   height: 35px;
   width: 100px;
@@ -142,7 +146,7 @@
   left: 10px;
 }
 
-.back-btn{
+.back-btn {
   position: absolute;
   top: 50px;
   left: 10px;
@@ -151,10 +155,24 @@
   color: black;
 }
 
-
-
 .mobileTodo-page {
   display: none;
+}
+
+@media screen and (max-width:480px) {
+  .desktopTodo-page {
+    width: 95%;
+  }
+
+  .todoAdd-body {
+    margin-left: 40px;
+  }
+}
+
+@media (min-width:481px) and (max-width:650px) {
+  .desktopTodo-page {
+    width: 95%;
+  }
 }
 
 /* ======================================= */

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Todo = () => {
 
-  const navigate=useNavigate()
+  const navigate = useNavigate()
   let userId;
 
   const [todosArr, setTodosArr] = useState([])
@@ -21,66 +21,88 @@ const Todo = () => {
     setTodosArr(res.data.todos)
   }
 
-  //creating todo
+  //creating todo=================================
   const createTodo = async () => {
-    const userId = localStorage.getItem("SCRIBBLE_USER_ID")
-    const isCreated = await axios.post(import.meta.env.VITE_API_URL + `/createTodo`, {
-      desc: todo,
-      userId: userId
-    })
-
-    if (isCreated.data.status == 201) {
-      fetchTodo(userId);
-      setTodo("")
-      setNotify(isCreated.data.msg);
-
+    if (todo == "") {
+      setNotify("enter something first")
       setTimeout(() => {
         setNotify("")
       }, 1500)
+
     } else {
-      setNotify(isCreated.data.msg);
-      setTimeout(() => {
-        setNotify("")
-      }, 1500)
-    }
+      const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+      const isCreated = await axios.post(import.meta.env.VITE_API_URL + `/createTodo`, {
+        desc: todo,
+        userId: userId
+      })
 
+      if (isCreated.data.status == 201) {
+        fetchTodo(userId);
+        setTodo("")
+        setNotify(isCreated.data.msg);
+
+        setTimeout(() => {
+          setNotify("")
+        }, 1500)
+      } else {
+        setNotify(isCreated.data.msg);
+        setTimeout(() => {
+          setNotify("")
+        }, 1500)
+      }
+    }
   }
 
 
-  //deleting a todo operation
+  //deleting a todo operation=========================
   const handleDelete = async (id) => {
     const userId = localStorage.getItem("SCRIBBLE_USER_ID")
-    const isDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteTodo/${id}/${userId}`)
-    if (isDeleted.data.status == 201) {
-      fetchTodo(userId);
-      setNotify(isDeleted.data.msg);
-      setTimeout(() => {
-        setNotify("")
-      }, 1500)
+    if (userId == null) {
+      navigate("/login")
     } else {
-      setNotify(isDeleted.data.msg);
-      setTimeout(() => {
-        setNotify("")
-      }, 1500)
+      const isDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteTodo/${id}/${userId}`)
+      if (isDeleted.data.status == 201) {
+        fetchTodo(userId);
+        setNotify(isDeleted.data.msg);
+        setTimeout(() => {
+          setNotify("")
+        }, 1500)
+      } else {
+        setNotify(isDeleted.data.msg);
+        setTimeout(() => {
+          setNotify("")
+        }, 1500)
+      }
     }
+
   }
 
+  //to delete all todos at once
   const handleDeleteAll = async () => {
-    const choice = confirm("are you sure t delete all todos")
-    if (choice) {
-      const userId = localStorage.getItem("SCRIBBLE_USER_ID")
-      const areDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteAllTodos/${userId}`)
-      console.log(areDeleted);
-      fetchTodo(userId);
-
+    const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+    if (userId == null) {
+      navigate("/login")
+    } else {
+      const choice = confirm("are you sure,to delete all todos")
+      if (choice) {
+        const userId = localStorage.getItem("SCRIBBLE_USER_ID")
+        const areDeleted = await axios.delete(import.meta.env.VITE_API_URL + `/deleteAllTodos/${userId}`)
+        if(areDeleted){
+          fetchTodo(userId);
+        }
+      }
     }
-
   }
 
 
   useEffect(() => {
     userId = localStorage.getItem("SCRIBBLE_USER_ID")
-    fetchTodo(userId)
+    if (userId == null) {
+      navigate("/login")
+    } else {
+      fetchTodo(userId)
+    }
+
   }, [])
 
   return (
@@ -88,6 +110,7 @@ const Todo = () => {
       {/* todo page for desktop */}
       <div className='desktopTodo-page'>
         <p className='notify-area'>{notify}</p>
+
         <section className='todoAdd-body'>
           <input type='text' placeholder='enter todo' value={todo} onChange={(e) => setTodo(e.target.value)} ></input  ><button onClick={() => createTodo()}>ADD</button>
         </section>
@@ -101,7 +124,7 @@ const Todo = () => {
         </div>
 
         <button className='deleteTodo-btn' onClick={handleDeleteAll}>delete all</button>
-        <IoArrowBackCircle className='back-btn' onClick={()=>navigate(-1)}/>
+        <IoArrowBackCircle className='back-btn' onClick={() => navigate(-1)} />
       </div>
 
 
