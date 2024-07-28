@@ -176,3 +176,180 @@
 }
 
 /* ======================================= */
+
+
+
+/* note page===================================== */
+
+.note-page{
+  /* background-color: #007bff; */
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  
+}
+
+.note-block{
+  background-color: #D9D9D9;
+  width: 90%;
+  height: 90%;
+  position: relative;
+  
+}
+.search-body{
+  height: 55px;
+  width: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap:10px;
+  position: relative;
+}
+.search-body input{
+  background-color: white;
+  width: 50%;
+  height: 60%;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  color: black;
+  font-size: 0.8rem;
+  text-align: center;
+  padding: 5px;
+}
+.searchNote-btn{
+height: 35px;
+width: 35px;
+background-color: #007bff;
+border-radius: 50%;
+padding: 5px;
+color: white;
+}
+
+.noteBack-btn{
+  height: 35px;
+  width: 35px;
+  color: white;
+  position: absolute;
+  left: 10px;
+}
+
+
+
+
+.notesList-body{
+  background-color: #D9D9D9;
+  height: 55%;
+  max-height: 330px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-y: scroll;
+  justify-content:center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.notesList-body::-webkit-scrollbar{
+  display: none;
+}
+
+
+
+
+
+
+.createNote-body{
+
+  height: 36%;
+  width: 100%;
+  min-width: 280px;
+  background-color: #c9c9c9;
+  position: absolute;
+  bottom: 0px;left: 0px;
+  flex-direction: column;
+  align-items: center;
+  animation-name: load;
+  animation-duration: 0.1s;
+}
+@keyframes load {
+  0%{
+    
+    opacity: 0%;
+  }
+  100%{
+    translate: 0px 0px;
+   
+  }
+  
+}
+.toggle-btn{
+  color: #007bff;
+  background-color: white;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+}
+.createNote-body input{
+  width: 80%;
+  max-width: 400px;
+  height: 13%;
+  background-color: transparent;
+  border-bottom: 2px solid black;
+  margin-bottom: 5px;
+  outline: none;
+  color: #007bff;
+  font-weight: 600;
+  font-family: cursive;
+  padding: 0px 10px 0px 10px;
+  margin-top: 10px;
+  transition: 0.1s ease-in;
+}
+.createNote-body input:focus{
+  background-color: white;
+}
+.createNote-body textarea{
+  resize: none;
+  max-width: 500px;
+  width: 80%;
+  height: 60%;
+  background-color: white;
+  color: black;
+  outline: none;
+  box-shadow: 1px 1px 5px black;
+  padding: 5px 10px 0px 10px;
+  font-family: cursive;
+}
+.notify-body{
+  height: 30px;
+  color: red;
+  text-align: center;
+}
+.addNotes-btn{
+  background-color:#007bff;
+  position: absolute;
+  bottom: 5px;
+  right: 50px;
+  height: 35px;
+  width: 120px;
+  border-radius: 10px;
+}
+.clearNotes-btn{
+  background-color:rgb(229, 3, 3);
+  position: absolute;
+  bottom: 5px;
+  left: 50px;
+  height: 35px;
+  width: 120px;
+  border-radius: 10px;
+}
+.crossToggle-btn{
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  color: black;
+  top :10px;
+  right: 10px;
+
+}

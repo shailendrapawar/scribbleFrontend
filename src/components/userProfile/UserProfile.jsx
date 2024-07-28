@@ -33,8 +33,6 @@ const UserProfile = () => {
 
 
 
-  //fn for fetching user data
-
   useEffect(() => {
 
     const id = localStorage.getItem("SCRIBBLE_USER_ID")
