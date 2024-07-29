@@ -87,7 +87,7 @@ const Login = () => {
     const isValid = validate()
 
     if (isValid) {
-      const res = await axios.post(import.meta.env.VITE_API_URL + "/login", userData);
+      const res = await axios.post(import.meta.env.VITE_API_URL+"/login", userData);
       console.log(res)
 
       //if user exists 
