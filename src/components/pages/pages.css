@@ -301,7 +301,6 @@ color: white;
   outline: none;
   color: #007bff;
   font-weight: 600;
-  font-family: cursive;
   padding: 0px 10px 0px 10px;
   margin-top: 10px;
   transition: 0.1s ease-in;
@@ -319,7 +318,7 @@ color: white;
   outline: none;
   box-shadow: 1px 1px 5px black;
   padding: 5px 10px 0px 10px;
-  font-family: cursive;
+
 }
 .notify-body{
   height: 30px;

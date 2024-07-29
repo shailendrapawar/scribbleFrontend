@@ -31,8 +31,6 @@ const UserProfile = () => {
 
   }
 
-
-
   useEffect(() => {
 
     const id = localStorage.getItem("SCRIBBLE_USER_ID")
@@ -45,7 +43,6 @@ const UserProfile = () => {
 
         try{
           const res = await axios.get(import.meta.env.VITE_API_URL + `/getUser/${id}`)
-          console.log(res.data)
           setUserData(res.data.userData)
           setLoaded(true)
         }catch(e){
@@ -54,8 +51,6 @@ const UserProfile = () => {
           setLoaded(true)
         }
       }
-
-      
       fetchUserData(id)
 
     } else {

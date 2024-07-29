@@ -36,6 +36,8 @@ const Input = styled.input`
   margin: 0.5em 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color:black;
+  color:white;
 `;
 
 
@@ -88,17 +90,14 @@ const Login = () => {
 
     if (isValid) {
       const res = await axios.post(import.meta.env.VITE_API_URL+"/login", userData);
-      console.log(res)
 
       //if user exists 
       if (res.data.status == 200) {
         setError(res.data.msg)
-
         localStorage.setItem("SCRIBBLE_USER_ID",res.data.id)
-
         setTimeout(() => {
           naviagte("/userProfile")
-        }, 2000)
+        }, 1000)
       }
 
       //if user dosent

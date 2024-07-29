@@ -25,7 +25,7 @@ const Note = () => {
   const fetchNotes = async (userId) => {
     const notes = await axios.get(import.meta.env.VITE_API_URL + `/getAllNotes/${userId}`)
     setNotesArr(notes.data.data)
-    console.log(notes)
+
     if(notes.data.data.length==0){
       setToggle(true);
     }
@@ -120,8 +120,8 @@ const Note = () => {
         </div>
 
         <div className='createNote-body' style={toggle ? { display: "flex" } : { display: "none" }}>
-          <input placeholder='entere title' value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)}></input>
-          <textarea placeholder='entere desc' value={noteDesc} onChange={(e) => setNoteDesc(e.target.value)}></textarea>
+          <input placeholder='enter title' value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)}></input>
+          <textarea placeholder='enter desc' value={noteDesc} onChange={(e) => setNoteDesc(e.target.value)}></textarea>
           <button className='addNotes-btn' onClick={(e) => creatNote(e)}>add new</button>
           <button className='clearNotes-btn' onClick={() => handleDeleteAllNotes()} >clear all</button>
           <RxCross1 className='crossToggle-btn' onClick={() => setToggle(!toggle)} />

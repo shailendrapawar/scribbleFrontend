@@ -35,6 +35,8 @@ const Input = styled.input`
   margin: 0.5em 0;
   border: 1px solid #ccc;
   border-radius: 5px;
+  background-color:black;
+  color:white;
 `;
 
 const Button = styled.button`
